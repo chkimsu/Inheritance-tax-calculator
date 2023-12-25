@@ -6,7 +6,6 @@ import { loadFonts } from './plugins/webfontloader'
 import Vuex from 'vuex'
 import store from "./store/storage"
 
-
 loadFonts()
 
 createApp(App)

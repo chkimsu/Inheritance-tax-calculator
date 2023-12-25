@@ -5,8 +5,10 @@
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-if="receivedata" title="동일인 증여 금액 :" ></WifeMoney>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-for="title in titleList" v-bind:title="title" :key="title"></WifeMoney>
     <div> <h1>{{sumOfCal}}</h1></div>
-
-    <testComp></testComp>
+    <div class="col-md-4">
+      <!-- 오른쪽에 배치될 컴포넌트 -->
+      <testComp></testComp>
+    </div>
 </template>
 
 <script>

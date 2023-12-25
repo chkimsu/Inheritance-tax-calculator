@@ -1,6 +1,4 @@
 <template>
-
-<v-card>상속세 계산기</v-card>
   <v-app>
     <v-main>
       <router-view/>
