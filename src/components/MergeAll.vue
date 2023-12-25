@@ -1,14 +1,33 @@
 <template>
+
+
+<HeaderTab></HeaderTab>
+<div class = '.container'>
+    <div class="row">
+        <div class="col-md-6">
+
     <WifeMoney></WifeMoney>
-    <CounterCardMerge></CounterCardMerge>
+
+    <div class = "d-flex justify-content-center">
+        <CounterCardMerge></CounterCardMerge>
+    </div>
+    
     <SamePerson v-on:childEvent="processChildEvent"></SamePerson>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-if="receivedata" title="동일인 증여 금액 :" ></WifeMoney>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-for="title in titleList" v-bind:title="title" :key="title"></WifeMoney>
-    <div> <h1>{{sumOfCal}}</h1></div>
-    <div class="col-md-4">
+
+        </div>
+
+
+        <div class="col-6 col-md-6">
       <!-- 오른쪽에 배치될 컴포넌트 -->
-      <testComp></testComp>
-    </div>
+             <testComp></testComp>
+            <div> <h1>{{sumOfCal}}</h1></div>
+
+        </div>
+    </div>  
+</div>
+
 </template>
 
 <script>
@@ -18,7 +37,7 @@ import WifeMoney from '@/components/WifeMoney.vue';
 import CounterCardMerge from '@/components/CounterCardMerge.vue';
 import SamePerson from './SamePerson.vue';
 import {formatNumber} from 'hangul-util'
-
+import HeaderTab from '@/components/HeaderTab.vue'
 import testComp from '@/components/ShowResultPage.vue'
 
 export default {
@@ -73,7 +92,8 @@ components : {
     WifeMoney,
     CounterCardMerge,
     SamePerson,
-    testComp
+    testComp,
+    HeaderTab
 }
 
 }

@@ -3,16 +3,23 @@
 
 
                     <div class="card">
-                             <!-- 신기한게 생김. v-model.number로 숫자입력받음.  -->
-                             <!-- type=number로 해두면 글자입력불가 -->
-                            <input type='number' v-model.number="calculation">
-                            <div>{{ computCal }}</div>
+                        
                         <div class="card-body">
                             <div class="table-box mobile">
                                 <table class="table incont table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <tbody>
                                     <tr class="inheritor_type" style="display: table-row;">
-                                        <th>{{title_}}</th>
+                                        <th>{{title_}}
+
+                                                 <!-- 신기한게 생김. v-model.number로 숫자입력받음.  -->
+                                                    <!-- type=number로 해두면 글자입력불가 -->
+                       
+                                            <input class = 'input_type' type='number' v-model.number="calculation">
+                                            <span style="margin-left:10px;">원</span>
+                                            <div>{{ computCal }}</div>
+                                        
+                                        
+                                        </th>
                                         <td colspan="3">
                                             
                                         <v-btn class="ma-2" v-for="course in courses" :key="course.id" 
@@ -95,7 +102,7 @@ export default{
         computCal : function(){
 
             
-            return formatNumber(this.calculation) +'원'
+            return formatNumber(this.calculation) 
 
         }
 
@@ -105,3 +112,16 @@ export default{
 
 
 </script>
+
+<style>
+
+.input_type{
+
+    margin-top: 20px;
+    padding: 0 15px;
+    border-radius: 5px;
+    background: #e78585;
+}
+
+
+</style>
