@@ -2,8 +2,6 @@
     <div>
       <h1>계산 상세</h1>
       {{test}}
-      <br>
-      '금융 상속 재산 : ' {{ testResult }}
     </div>
 
 
@@ -296,8 +294,7 @@ import { useStore } from "vuex";
     setup() {
     const store = useStore();
     const test = computed(() => store.state.datafromChild);
-    const testResult = computed(() => store.state.datafromChild['금융 상속 재산 :']);
-    return {test, testResult}
+    return {test}
   },
     data: () => ({
       headers: [
