@@ -16,13 +16,15 @@
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-if="receivedata" title="동일인 증여 금액 :" ></WifeMoney>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-for="title in titleList" v-bind:title="title" :key="title"></WifeMoney>
 
-        </div>
+
+</div>
 
 
         <div class="col-6 col-md-6">
       <!-- 오른쪽에 배치될 컴포넌트 -->
              <testComp></testComp>
-            <div> <h1>{{sumOfCal}}</h1></div>
+        <div>
+        <h1>{{sumOfCal}}</h1></div>
 
         </div>
     </div>  
@@ -39,6 +41,7 @@ import SamePerson from './SamePerson.vue';
 import {formatNumber} from 'hangul-util'
 import HeaderTab from '@/components/HeaderTab.vue'
 import testComp from '@/components/ShowResultPage.vue'
+import Description from './Description.vue';
 
 export default {
 
@@ -93,7 +96,8 @@ components : {
     CounterCardMerge,
     SamePerson,
     testComp,
-    HeaderTab
+    HeaderTab,
+    Description
 }
 
 }
