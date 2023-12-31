@@ -35,6 +35,8 @@
 
                                         </td>
                                     </tr>
+
+                                    <description :title=title_></description>
                              
                                     </tbody>
                                 </table>
@@ -48,6 +50,7 @@
 
 <script>
 import {formatNumber} from 'hangul-util'
+import Description from './Description.vue'
 
 export default{
     name : 'WifeMoney',
@@ -61,6 +64,9 @@ export default{
         selectedButtonId:  null,
         calculation : 0
       }
+    },
+    components : {
+        Description
     },
     methods : {
         sendParent(){
