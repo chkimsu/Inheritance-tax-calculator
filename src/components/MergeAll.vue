@@ -12,6 +12,7 @@
         <CounterCardMerge></CounterCardMerge>
     </div>
     
+    <Description title="실험중"></Description>
     <SamePerson v-on:childEvent="processChildEvent"></SamePerson>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-if="receivedata" title="동일인 증여 금액 :" ></WifeMoney>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-for="title in titleList" v-bind:title="title" :key="title"></WifeMoney>

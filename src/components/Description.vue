@@ -3,7 +3,7 @@
 
 <v-expansion-panels>
   <v-expansion-panel
-    v-bind:title= exec
+    v-bind:title='exec'
     text="현금성자산, 화폐, 등을 의미"
   >
   </v-expansion-panel>
@@ -16,25 +16,22 @@
 <script>
 
 export default{
-
+    name : 'DescriptionVue',
     props :{
         title : String
     },
-    mounted(){
-// 요거 공부... 
-        console.log('this.title : ' ,this.title_)
-        console.log('this.exec : ', this.title +'kk')
 
-    }
-    ,
+    created() {
+  console.log("Title from props:", this.title);
+  console.log("Exec in data:", this.exec);
+},
+    
     data(){
-
         return {
             title_ : this.title,
-            exec : this.title +'kk'
+            exec : this.title
         }
-    },
-    name : 'DescriptionVue'
+    }
 }
 
 
