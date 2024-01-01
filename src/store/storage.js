@@ -6,7 +6,6 @@ export default createStore({
         datafromChild : {}
     },
     
-    
     mutations : {
         updateDataFromChild(state, payload) {
             state.datafromChild[payload.title] = payload.value; // 상태 업데이트

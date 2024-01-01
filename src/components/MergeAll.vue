@@ -6,13 +6,12 @@
     <div class="row">
         <div class="col-md-6">
 
-    <WifeMoney></WifeMoney>
+    <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" title="배우자 상속 금액 :"></WifeMoney>
 
     <div class = "d-flex justify-content-center">
         <CounterCardMerge></CounterCardMerge>
     </div>
     
-    <Description title="실험중"></Description>
     <SamePerson v-on:childEvent="processChildEvent"></SamePerson>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-if="receivedata" title="동일인 증여 금액 :" ></WifeMoney>
     <WifeMoney v-on:WifeMoneychildEvent="processCalculateChildEvent" v-for="title in titleList" v-bind:title="title" :key="title"></WifeMoney>
@@ -22,7 +21,7 @@
 
 
         <div class="col-6 col-md-6">
-      <!-- 오른쪽에 배치될 컴포넌트 -->
+        <!-- 오른쪽에 배치될 컴포넌트 -->
              <testComp></testComp>
         <div>
         <h1>{{sumOfCal}}</h1></div>
@@ -39,10 +38,8 @@
 import WifeMoney from '@/components/WifeMoney.vue';
 import CounterCardMerge from '@/components/CounterCardMerge.vue';
 import SamePerson from './SamePerson.vue';
-import {formatNumber} from 'hangul-util'
 import HeaderTab from '@/components/HeaderTab.vue'
 import testComp from '@/components/ShowResultPage.vue'
-import Description from './Description.vue';
 
 export default {
 
@@ -63,8 +60,11 @@ created(){
     this.titleObjects = this.titleList.reduce((obj, title) => {
     obj[title] = 0; // title을 key로 갖는 빈 문자열 값의 객체 생성
     obj['동일인 증여 금액 :'] = 0;
+    obj['배우자 상속 금액 :'] = 0;
     return obj;
   }, {});
+
+  console.log('this.titleObjects : ', this.titleObjects)
 
 },
 
@@ -73,14 +73,12 @@ methods:{
     processChildEvent(data){
         this.receivedata = data
         if(this.receivedata === false){
-            console.log('동일인 증여 금액 어떻게? :', this.receivedata)
             this.titleObjects['동일인 증여 금액 :'] = 0;
             this.$store.commit('updateDataFromChild', {'title' : '동일인 증여 금액 :' , 'value' :  0}); // Vuex Store로 데이터 전달 및 상태 업데이트
 
         }
     },
     processCalculateChildEvent(title, data){
-        console.log(formatNumber(data))
         this.titleObjects[title] = data;
     }
 },
@@ -97,8 +95,7 @@ components : {
     CounterCardMerge,
     SamePerson,
     testComp,
-    HeaderTab,
-    Description
+    HeaderTab
 }
 
 }

@@ -106,10 +106,7 @@ export default{
         },
     computed : {
         computCal : function(){
-
-            
             return formatNumber(this.calculation) 
-
         }
 
     }
