@@ -1,7 +1,10 @@
 <template>
 
-<div v-for="value in result" :key="value">{{ value }}</div>
+<!-- <div v-for="value in result" :key="value">{{ value }}</div> 왜 이건 안되지?  -->
 
+<div> {{ result[0] }}</div>
+<div> {{ result[1] }}</div>
+<div> {{ result[2] }}</div>
 
 </template>
 
@@ -66,9 +69,8 @@ function calculateInheritanceTax(taxableAmount) {
 
 let result =  computed(
 
-function testing(){
+        function testing(){
 
-    if(who.value === "배우자"){
             const tmp_1 = a.value + c.value // 금융 + 부동산 상속재산
             const tmp_2 = tmp_1 + j.value // 금융 + 부동산 + 사전증여
             const tmp_3 = tmp_2 - d.value // 금융 + 부동산 +사전증여 - 공과금/채무 
@@ -84,11 +86,15 @@ function testing(){
             const tmp_5 = tmp_3-tmp_4 // 금융 + 부동산 +사전증여 - 공과금/채무 - 장례비용 = 상속세과세가액 or 과세가액이라고 부름
 
             let tmp_6;
-            if(b.value >= 3000000000){
+            if(who.value === "배우자" & b.value >= 3000000000){
                 tmp_6 = 3000000000
-            }else{
+            }else if(who.value === "배우자" & b.value < 3000000000){
                 tmp_6 = b.value
+            }else if(who.value != "배우자"){
+                tmp_6 = 0
             }
+
+
             const tmp_7 = tmp_5- tmp_6 //상속세과세가액 - 배우자공제
             const tmp_8 = tmp_7 - child.value * 50000000  //상속세과세가액 - 배우자공제 - 자녀공제
             const tmp_9 = tmp_8 - elder.value * 50000000  //상속세과세가액 - 배우자공제 - 자녀공제- 고령자공제
@@ -120,13 +126,11 @@ function testing(){
 
             const tmp_18 = tmp_17 - tmp_17*0.03 //신고세액 공제금액 3퍼센트 
 
-        return [tmp_1, tmp_2, tmp_3, tmp_4, tmp_5,
-                tmp_6, tmp_7, tmp_8, tmp_9, tmp_10,
-                tmp_11, tmp_12, tmp_13, tmp_14, tmp_15, tmp_16, tmp_17, tmp_18]
+        return [tmp_1, tmp_4, d.value, j.value, tmp_5,
+                tmp_6, child.value * 50000000, elder.value * 50000000, 500000000, tmp_11,
+                tmp_13, i.value, e.value, tmp_16, tmp_17, tmp_17*0.03, tmp_18]
 
-    }else{
-        return -300
-    }
+  
 }
 )
 

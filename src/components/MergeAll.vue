@@ -25,8 +25,7 @@
         <div class="col-6 col-md-6">
         <!-- 오른쪽에 배치될 컴포넌트 -->
              <testComp></testComp>
-        <div>
-        <h1>{{sumOfCal}}</h1></div>
+
         <FinalCal></FinalCal> 
         </div>
     </div>  
