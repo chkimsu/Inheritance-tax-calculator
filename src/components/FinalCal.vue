@@ -1,6 +1,7 @@
 <template>
 
-<div>{{ result }}</div>
+<div v-for="value in result" :key="value">{{ value }}</div>
+
 
 </template>
 
@@ -119,7 +120,9 @@ function testing(){
 
             const tmp_18 = tmp_17 - tmp_17*0.03 //신고세액 공제금액 3퍼센트 
 
-        return tmp_18
+        return [tmp_1, tmp_2, tmp_3, tmp_4, tmp_5,
+                tmp_6, tmp_7, tmp_8, tmp_9, tmp_10,
+                tmp_11, tmp_12, tmp_13, tmp_14, tmp_15, tmp_16, tmp_17, tmp_18]
 
     }else{
         return -300
