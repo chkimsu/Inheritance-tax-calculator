@@ -1,9 +1,9 @@
 <template>
     <div>
-      <CounterCard title="자녀 수 :" :initialValue="getCount1" />
-      <CounterCard title="연로자 수 :" :initialValue="getCount2" />
-      <CounterCard title="미성년자 수 :" :initialValue="getCount3" />
-      <CounterCard title="장애인 수 :" :initialValue="getCount4" />
+      <CounterCard title="자녀 수" :initialValue="getCount1" />
+      <CounterCard title="연로자 수" :initialValue="getCount2" />
+      <CounterCard title="미성년자 수" :initialValue="getCount3" />
+      <CounterCard title="장애인 수" :initialValue="getCount4" />
     </div>
   </template>
   

@@ -20,11 +20,6 @@ export default{
     props :{
         title : String
     },
-
-    created() {
-  console.log("Title from props:", this.title);
-  console.log("Exec in data:", this.exec);
-},
     
     data(){
         return {
