@@ -27,7 +27,7 @@
              <testComp></testComp>
         <div>
         <h1>{{sumOfCal}}</h1></div>
-
+        <FinalCal></FinalCal> 
         </div>
     </div>  
 </div>
@@ -43,6 +43,7 @@ import SamePerson from './SamePerson.vue';
 import HeaderTab from '@/components/HeaderTab.vue'
 import testComp from '@/components/ShowResultPage.vue'
 import WhoInherit from './WhoInherit.vue';
+import FinalCal from './FinalCal.vue';
 
 export default {
 
@@ -50,7 +51,7 @@ data(){
  return {
     isTrue : true,
     receivedata : null,
-    titleList : ['상속 재산', '금융 상속 재산', '채무 금액', '감정평가 수수료', "장례 비용","세대 생략 상속 비용","공동주택공제금액", "재해손실금액" ],
+    titleList : ['부동산 상속 재산', '금융 상속 재산', '채무 금액', '감정평가 수수료', "장례 비용","세대 생략 상속 비용","공동주택공제금액", "재해손실금액" ],
     titleObjects: {} ,
     sum : 0,
     whorecivedata : true
@@ -105,7 +106,8 @@ components : {
     SamePerson,
     testComp,
     HeaderTab,
-    WhoInherit
+    WhoInherit,
+    FinalCal
 }
 
 }

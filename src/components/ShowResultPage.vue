@@ -31,7 +31,8 @@ import { reactive } from 'vue';
     setup() {
     const store = useStore();
     const test = computed(() => store.state.datafromChild);
-    
+
+
     const headers = [
     { title: '계산 항목', key: 'name' },
     { title: '결과', key: 'calories' }
@@ -41,8 +42,9 @@ import { reactive } from 'vue';
     const vegetables = reactive([
     {
       name: '상속재산금액',
-      calories: test.value['상속 재산']
-   
+      get calories(){
+        return test.value['부동산 상속 재산']
+      }
     },
     {
       name: '장례비용',

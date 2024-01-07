@@ -31,7 +31,6 @@
     const whoInherit = () => {store.commit('whoInheritUpdate', person.value); // Vuex Store로 데이터 전달 및 상태 업데이트
 
                             if (person.value === '배우자 없음') {
-                            console.log('배우자 없음 선택됨');
 
                             store.commit('updateDataFromChild', {'title' : '배우자 상속 금액' , 'value' :  0}); // Vuex Store로 데이터 전달 및 상태 업데이트
 
