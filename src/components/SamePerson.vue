@@ -23,7 +23,6 @@ export default {
     methods : {
         sendParent(){
             this.$emit('childEvent', !this.isSamePerson)
-            console.log('value값 : ', this.value)
         }
 
     }

@@ -12,15 +12,15 @@
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item value="one">
-            상속세
+            상속세 계산기
           </v-window-item>
   
           <v-window-item value="two">
-            증여세
+            증여세 계산기
           </v-window-item>
   
           <v-window-item value="three">
-            양도세
+            양도세 계산기
           </v-window-item>
         </v-window>
       </v-card-text>

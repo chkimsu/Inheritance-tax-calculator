@@ -39,13 +39,11 @@ import { reactive } from 'vue';
     { title: '결과', key: 'calories' }
     ]
 
-    console.log('test는 : ', test.value['상속 재산 :']);
-
 
     const vegetables = reactive([
     {
       name: '상속재산금액',
-      calories: test.value['상속 재산 :']
+      calories: test.value['상속 재산']
    
     },
     {
