@@ -9,10 +9,10 @@
   
   <script>
   import CounterCard from "@/components/CounterCard"; // CounterCard 컴포넌트의 경로에 맞게 수정
-  
+
   export default {
     components: {
-      CounterCard
+      CounterCard,
     },
     data() {
       return {
@@ -22,6 +22,7 @@
         getCount4: 0
       };
     }
+
   };
   </script>
   

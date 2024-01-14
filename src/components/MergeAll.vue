@@ -26,7 +26,6 @@
         <!-- 오른쪽에 배치될 컴포넌트 -->
              <testComp></testComp>
 
-        <FinalCal></FinalCal> 
         </div>
     </div>  
 </div>
@@ -42,7 +41,6 @@ import SamePerson from './SamePerson.vue';
 import HeaderTab from '@/components/HeaderTab.vue'
 import testComp from '@/components/ShowResultPage.vue'
 import WhoInherit from './WhoInherit.vue';
-import FinalCal from './FinalCal.vue';
 
 export default {
 
@@ -68,7 +66,6 @@ created(){
     return obj;
   }, {});
 
-  console.log('this.titleObjects : ', this.titleObjects)
 
 },
 
@@ -106,8 +103,7 @@ components : {
     testComp,
     HeaderTab,
     WhoInherit,
-    FinalCal
-}
+    }
 
 }
 

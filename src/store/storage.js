@@ -21,8 +21,16 @@ export default createStore({
         "자녀 수" : 0,
         "연로자 수" :0,
         "미성년자 수" :0,
-        "장애인 수" : 0 }
-    },
+        "장애인 수" : 0 },
+
+        CounterCardAge : {
+
+            'Child' : [],
+            'disabled' : []
+
+        }
+        },
+        
     
     mutations : {
         updateDataFromChild(state, payload) {
@@ -35,6 +43,11 @@ export default createStore({
         countercardupdate(state, payload){
 
             state.CounterCard[payload.title] = payload.value; // 상태 업데이트
+
+        },
+        countercardAgeupdate(state, payload){
+            state.CounterCardAge[payload.title] = payload.value; // 상태 업데이트
+            console.log('storage.js 확인중 : ', state.CounterCardAge)
 
         }
     },

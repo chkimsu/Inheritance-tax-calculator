@@ -1,9 +1,6 @@
 <template>
 
-    <div>
-      <h1>계산 상세</h1>
-      <h1>{{test}}</h1> 
-    </div>
+  <FinalCal></FinalCal>
 
 
     <v-data-table :headers="headers" :items="vegetables">
@@ -25,8 +22,12 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { reactive } from 'vue';
+import FinalCal from "./FinalCal.vue";
 
   export default {
+    components : {
+      FinalCal
+    },
 
     setup() {
     const store = useStore();
