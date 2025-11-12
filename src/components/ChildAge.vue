@@ -1,48 +1,65 @@
 <template>
-
-
-  <v-text-field v-for="(how, index) in howmanychild" :key="index"
-    v-model='inputValues[index]'
-    color="success"
-    variant="outlined"
-    v-on:keyup.enter="process()"
-    label = '나이 입력 후 Enter치세요'
-  >
-
-
-</v-text-field>
-
-
+  <div class="w-100">
+    <v-text-field
+      v-for="index in fieldCount"
+      :key="`age-input-${title}-${index}`"
+      v-model="inputValues[index - 1]"
+      type="number"
+      color="success"
+      variant="outlined"
+      class="mb-2"
+      label="나이를 입력하세요"
+      min="0"
+    />
+  </div>
 </template>
 
+<script setup>
+import { computed, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 
-<script>
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  howmanychild: {
+    type: Number,
+    default: 0,
+  },
+});
 
+const store = useStore();
+const inputValues = ref([]);
 
-export default{
+const fieldCount = computed(() => Math.max(0, props.howmanychild));
 
+const storeKey = computed(() => {
+  if (props.title === '미성년자 수') {
+    return 'Child';
+  }
+  if (props.title === '장애인 수') {
+    return 'disabled';
+  }
+  return null;
+});
 
-    props: {
-      title: String, // 카드의 제목
-      howmanychild: Number // 초기 카운트 값
-    },
+watch(
+  fieldCount,
+  (count) => {
+    inputValues.value = Array.from({ length: count }, (_, index) => inputValues.value[index] ?? '');
+  },
+  { immediate: true },
+);
 
-    data(){
-
-        return {
-        inputValues :[]}
-
-    },
-    methods : {
-        process(){
-         if(this.title === "미성년자 수"){
-         this.$store.commit('countercardAgeupdate', {'title' : 'Child', 'value' :  this.inputValues})
-         console.log(this.inputValues)
-        }else if(this.title === "장애인 수"){
-        this.$store.commit('countercardAgeupdate', {'title' : 'disabled', 'value' :  this.inputValues})
-
-        }
-     }
-}
-}
+watch(
+  inputValues,
+  (values) => {
+    if (!storeKey.value) {
+      return;
+    }
+    store.commit('countercardAgeupdate', { title: storeKey.value, value: [...values] });
+  },
+  { deep: true },
+);
 </script>

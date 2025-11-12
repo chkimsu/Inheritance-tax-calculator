@@ -1,130 +1,112 @@
 <template>
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="d-flex flex-column gap-2">
+        <label class="fw-bold">{{ title }}</label>
 
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <input
+            class="input_type"
+            type="number"
+            min="0"
+            v-model.number="calculation"
+            aria-label="amount-input"
+          />
+          <span>원</span>
+          <span class="text-muted small">{{ formattedValue }} 원</span>
+        </div>
 
+        <div class="d-flex flex-wrap gap-2 mt-2">
+          <v-btn
+            v-for="preset in presets"
+            :key="preset.label"
+            size="small"
+            rounded
+            variant="tonal"
+            :color="preset.label === selectedPreset ? 'primary' : undefined"
+            @click="handlePresetClick(preset)"
+          >
+            {{ preset.label }}
+          </v-btn>
+        </div>
+      </div>
 
-                    <div class="card">
-                        
-                        <div class="card-body">
-                            <div class="table-box mobile">
-                                <table class="table incont table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <tbody>
-                                    <tr class="inheritor_type" style="display: table-row;">
-                                        <th>{{title_}}
-
-                                                 <!-- 신기한게 생김. v-model.number로 숫자입력받음.  -->
-                                                    <!-- type=number로 해두면 글자입력불가 -->
-                       
-                                            <input class = 'input_type' type='number' v-model.number="calculation">
-                                            <span style="margin-left:10px;">원</span>
-                                            <div>{{ computCal }}</div>
-                                        
-                                        
-                                        </th>
-                                        <td colspan="3">
-                                            
-                                        <v-btn class="ma-2" v-for="course in courses" :key="course.id" 
-                                        rounded
-                                        :color="selectedButtonId === course.id ? 'primary' : undefined" 
-                                        @click="
-                                        selectedButtonId = course.id;
-                                        calculate();
-                                        sendParent()"
-                                        >
-                                        {{ course.name }}
-                                        </v-btn>
-
-                                        </td>
-                                    </tr>
-
-                                    <description :title=title_></description>
-                             
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-</div>
-
+      <Description :title="title" class="mt-3" />
+    </div>
+  </div>
 </template>
 
+<script setup>
+import { computed, ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import { formatNumber } from 'hangul-util';
+import Description from './Description.vue';
 
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+});
 
-<script>
-import {formatNumber} from 'hangul-util'
-import Description from './Description.vue'
+const presets = [
+  { label: '10억', value: 1_000_000_000 },
+  { label: '1억', value: 100_000_000 },
+  { label: '1천만', value: 10_000_000 },
+  { label: '1백만', value: 1_000_000 },
+  { label: '초기화', value: 0, reset: true },
+];
 
-export default{
-    name : 'WifeMoney',
-    props :{
-        title : String
-    },
-    data() {
-      return {
-        title_ : this.title,
-        courses: [{id:1, name: '10억'}, {id:2, name: '1억'},{id:3, name: '1천만'},{id:4, name: '1백만'},{id:5, name: '초기화'}],
-        selectedButtonId:  null,
-        calculation : 0
-      }
-    },
-    components : {
-        Description
-    },
-    methods : {
-        sendParent(){
+const store = useStore();
+const calculation = ref(store.state.datafromChild[props.title] ?? 0);
+const selectedPreset = ref(null);
 
-            this.$emit('WifeMoneychildEvent',this.title, this.calculation)
-            this.$store.commit('updateDataFromChild', {'title' : this.title , 'value' :  this.calculation}); // Vuex Store로 데이터 전달 및 상태 업데이트
+watch(
+  () => store.state.datafromChild[props.title],
+  (value) => {
+    if (value === undefined || value === calculation.value) {
+      return;
+    }
+    calculation.value = value;
+  },
+);
 
-        }
-        ,
-
-        calculate(){
-
-            if(this.selectedButtonId === 1){
-                this.calculation += 1000000000;
-
-            }else if(this.selectedButtonId === 2){
-
-                this.calculation += 100000000;
-
-            }else if(this.selectedButtonId ===3){
-
-            this.calculation += 10000000;
-
-            }else if(this.selectedButtonId === 4){
-
-            this.calculation += 1000000;
-
-            }else if(this.selectedButtonId === 5){
-
-            this.calculation = 0 ;
-
-            }
-
-            }
-
-
-        },
-    computed : {
-        computCal : function(){
-            return formatNumber(this.calculation) 
-        }
-
+watch(
+  calculation,
+  (value) => {
+    let normalized = Number.isFinite(value) ? value : 0;
+    if (normalized < 0) {
+      normalized = 0;
     }
 
+    if (normalized !== value) {
+      calculation.value = normalized;
+      return;
     }
 
+    store.commit('updateDataFromChild', { title: props.title, value: normalized });
+  },
+  { immediate: true },
+);
 
+const formattedValue = computed(() => formatNumber(calculation.value));
+
+const handlePresetClick = (preset) => {
+  selectedPreset.value = preset.label;
+  if (preset.reset) {
+    calculation.value = 0;
+    return;
+  }
+
+  calculation.value += preset.value;
+};
 </script>
 
-<style>
-
-.input_type{
-
-    margin-top: 20px;
-    padding: 0 15px;
-    border-radius: 5px;
-    background: #e78585;
+<style scoped>
+.input_type {
+  min-width: 180px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #cfd8dc;
 }
-
-
 </style>
