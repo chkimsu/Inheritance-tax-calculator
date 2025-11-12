@@ -11,7 +11,7 @@
     "@mdi/font": "5.9.55",
     "bootstrap": "^5.3.2",
     "bootstrap-vue-3": "^0.5.1",
-    "core-js": "^3.8.3",
+    "core-js": "^3.33.3",
     "hangul-util": "^0.1.4",
     "kor-to-number": "^1.1.5",
     "roboto-fontface": "*",
