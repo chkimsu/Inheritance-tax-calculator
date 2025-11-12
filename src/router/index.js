@@ -2,14 +2,14 @@
 /* eslint-disable */
 import { createRouter, createWebHistory } from 'vue-router';
 /* eslint-disable */ 
-import MergeAll from '../components/MergeAll.vue'; // 라우터 컴포넌트의 경로에 맞게 수정해야 합니다.
+import InheritanceCalculatorView from '@/views/InheritanceCalculatorView.vue';
 
 
 const routes = [
   {
     path: '/',
-    name: 'MergeAll',
-    component: MergeAll,
+    name: 'InheritanceCalculator',
+    component: InheritanceCalculatorView,
   }
   // 다른 라우트들 추가 가능
 ];

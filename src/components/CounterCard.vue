@@ -1,65 +1,82 @@
-<!-- CounterCard.vue -->
 <template>
-    <v-card width="320" class="text-center">
-      <v-card-title>{{ title }}</v-card-title>
-      <v-card-text>
-        <v-btn x-small text @click="incrementCounter(); cardchange();">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        <v-chip dark class="ml-4" color="purple">{{ count }}</v-chip>
-        <v-btn x-small text @click="deductCounter(); cardchange();">
-          <v-icon>mdi-minus</v-icon>
-        </v-btn>
-      </v-card-text>
-    </v-card>
+  <v-card width="320" class="text-center mb-3">
+    <v-card-title>{{ title }}</v-card-title>
+    <v-card-text class="d-flex align-center justify-center gap-4">
+      <v-btn icon size="small" @click="incrementCounter">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      <v-chip color="purple" text-color="white">{{ count }}</v-chip>
+      <v-btn icon size="small" @click="deductCounter">
+        <v-icon>mdi-minus</v-icon>
+      </v-btn>
+    </v-card-text>
+  </v-card>
 
-    <ChildAge v-bind:title="title" v-bind:howmanychild="count" v-if="showchildage"></ChildAge>
-  </template>
-  
-  <script>
+  <ChildAge
+    v-if="shouldCollectAge"
+    :title="title"
+    :howmanychild="count"
+  />
+</template>
 
-  import ChildAge from './ChildAge.vue';
-  export default {
-    props: {
-      title: String, // 카드의 제목
-      initialValue: Number // 초기 카운트 값
-    },
-    components : {
-     ChildAge
+<script setup>
+import { computed, ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import ChildAge from './ChildAge.vue';
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-    data() {
-      return {
-        count: this.initialValue
-      };
-    },
-    computed :{
-      showchildage : function() {
-       if (this.title === "미성년자 수" & this.count > 0){
-          console.log('여기 실행중')
-          return true
-        }else if(this.title === "장애인 수" & this.count > 0){
-          return true
+  initialValue: {
+    type: Number,
+    default: 0,
+  },
+});
 
-        }else{
-          return false
-      }
-      }
+const store = useStore();
+const count = ref(props.initialValue ?? 0);
 
-    },
-    methods: {
-      incrementCounter() {
-        this.count++;
-      },
-      deductCounter() {
-        this.count--;
-      },
-      cardchange(){
-        this.$store.commit('countercardupdate', {'title' : this.title , 'value': this.count})
-        console.log('countercardupdate', {'title' : this.title , 'value': this.count})
-       
-
-      }
+watch(
+  () => props.initialValue,
+  (value) => {
+    if (typeof value === 'number' && value !== count.value) {
+      count.value = value;
     }
-  };
-  </script>
-  
+  },
+);
+
+watch(
+  count,
+  (value, previous) => {
+    const safeValue = Number.isFinite(value) ? Math.max(0, value) : 0;
+    if (safeValue !== value) {
+      count.value = safeValue;
+      return;
+    }
+
+    if (safeValue === previous) {
+      return;
+    }
+
+    store.commit('countercardupdate', { title: props.title, value: safeValue });
+  },
+  { immediate: true },
+);
+
+const shouldCollectAge = computed(
+  () => count.value > 0 && (props.title === '미성년자 수' || props.title === '장애인 수'),
+);
+
+const incrementCounter = () => {
+  count.value += 1;
+};
+
+const deductCounter = () => {
+  if (count.value === 0) {
+    return;
+  }
+  count.value -= 1;
+};
+</script>

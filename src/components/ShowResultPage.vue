@@ -1,97 +1,62 @@
 <template>
+  <div class="mb-4">
+    <v-row dense>
+      <v-col
+        v-for="card in summaryCards"
+        :key="card.key"
+        cols="12"
+        md="4"
+        class="pb-2"
+      >
+        <v-card>
+          <v-card-title class="text-subtitle-2">{{ card.title }}</v-card-title>
+          <v-card-text class="text-h5 text-primary text-end">
+            {{ formatAmount(card.value) }}
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
 
-  <FinalCal></FinalCal>
+  <FinalCal :rows="breakdown.rows" class="mb-4" />
 
-
-    <v-data-table :headers="headers" :items="vegetables">
-      <template v-slot:[`item.calories`]="{ value }">
-        <v-chip :color="getColor(value)">
-          {{ value }}
-        </v-chip>
-      </template>
-
-    </v-data-table>
-
-
+  <v-data-table :headers="headers" :items="tableRows" density="compact">
+    <template v-slot:[`item.amount`]="{ value }">
+      <span class="font-weight-medium">{{ formatAmount(value) }}</span>
+    </template>
+  </v-data-table>
 </template>
-  
 
+<script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import FinalCal from './FinalCal.vue';
+import { buildBreakdown, formatCurrency } from '@/modules/calculator';
 
-<script>
+const headers = [
+  { title: '항목', key: 'name' },
+  { title: '금액', key: 'amount', align: 'end' },
+];
 
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { reactive } from 'vue';
-import FinalCal from "./FinalCal.vue";
+const store = useStore();
 
-  export default {
-    components : {
-      FinalCal
-    },
+const breakdown = computed(() =>
+  buildBreakdown({
+    amounts: store.state.datafromChild,
+    counters: store.state.CounterCard,
+    ages: store.state.CounterCardAge,
+    heirType: store.state.whoInherit,
+  }),
+);
 
-    setup() {
-    const store = useStore();
-    const test = computed(() => store.state.datafromChild);
+const summaryCards = computed(() => [
+  { title: '과세가액', key: 'taxableEstate', value: breakdown.value.summary.taxableEstate },
+  { title: '상속세 과세표준', key: 'taxableBase', value: breakdown.value.summary.taxableBase },
+  { title: '총 납부 예상 세액', key: 'totalDue', value: breakdown.value.summary.totalDue },
+]);
 
+const tableRows = computed(() => breakdown.value.tableRows);
 
-    const headers = [
-    { title: '계산 항목', key: 'name' },
-    { title: '결과', key: 'calories' }
-    ]
-
-
-    const vegetables = reactive([
-    {
-      name: '상속재산금액',
-      get calories(){
-        return test.value['부동산 상속 재산']
-      }
-    },
-    {
-      name: '장례비용',
-      calories: 49
-    },
-    {
-      name: '채무부담액',
-      calories: 34
-    },
-    {
-      name: '사전증여금액',
-      calories: 43
-    },
-    {
-      name: '과세가액',
-      calories: 160
-    },
-    {
-      name: '배우자 공제',
-      calories: 86
-    },
-    {
-      name: '자녀 공제',
-      calories: 96
-    },
-    {
-      name: '고령자 공제',
-      calories: 77
-    }
-  ])
-
-  function getColor (calories) {
-    if (calories > 100) return 'red'
-    else if (calories > 50) return 'orange'
-    else return 'green'
-  }
-
-    return {
-    test,
-    headers,
-    vegetables,
-    getColor
-            }
-    
-          }
-      
-    }
-
+const formatAmount = (value) =>
+  typeof value === 'number' ? `${formatCurrency(value)} 원` : value;
 </script>
